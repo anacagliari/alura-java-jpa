@@ -1,10 +1,12 @@
 package br.com.aplicacoesspringboot.screenmatch;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.aplicacoesspringboot.screenmatch.principal.Principal;
+import br.com.aplicacoesspringboot.screenmatch.repository.SerieRepository;
 
 /*
 	List: Uma coleção ordenada que permite elementos duplicados. Os elementos são acessados por índices.
@@ -15,13 +17,16 @@ import br.com.aplicacoesspringboot.screenmatch.principal.Principal;
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
 
+	@Autowired
+    private SerieRepository repositorio;
+
 	public static void main(String[] args) {
 		SpringApplication.run(ScreenmatchApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		Principal principal = new Principal();
+		Principal principal = new Principal(repositorio);
 		principal.exibeMenu();
 	}
 

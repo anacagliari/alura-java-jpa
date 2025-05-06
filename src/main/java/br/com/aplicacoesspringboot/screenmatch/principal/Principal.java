@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import br.com.aplicacoesspringboot.screenmatch.model.DadosSerie;
 import br.com.aplicacoesspringboot.screenmatch.model.DadosTemporada;
 import br.com.aplicacoesspringboot.screenmatch.model.Serie;
+import br.com.aplicacoesspringboot.screenmatch.repository.SerieRepository;
 import br.com.aplicacoesspringboot.screenmatch.service.ConsumoApi;
 import br.com.aplicacoesspringboot.screenmatch.service.ConverteDado;
 
@@ -18,16 +18,17 @@ public class Principal {
     private ConsumoApi consumo = new ConsumoApi();
     private ConverteDado conversor = new ConverteDado();
 
-    private final String ENDERECO = "https://www.omdbapi.com/?t="; // constante (permite que valores fixos e imutáveis
-                                                                   // sejam armazenados e utilizados ao longo do
-                                                                   // código...)
-    private final String API_KEY = "&apikey=c6a5853b"; // constante (...muito úteis quando temos valores que não devem
-                                                       // ser alterados durante a execução do programa. Nomenclatura:
-                                                       // "snake_case")
-    private List<DadosSerie> dadosSeries = new ArrayList<>();
+    private final String ENDERECO = "https://www.omdbapi.com/?t="; 
+    // constante (permite que valores fixos e imutáveis sejam armazenados e utilizados ao longo do código...)
+    private final String API_KEY = "&apikey=c6a5853b"; 
+    private SerieRepository repositorio;
+
+    public Principal(SerieRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     // Métodos alterados a partir da base do curso Alura Java - JPA
-    public void exibeMenu() {
+    public void exibeMenu() throws UnsupportedEncodingException {
         var opcao = -1;
         while (opcao != 0) {
 
@@ -62,10 +63,13 @@ public class Principal {
         }
     }
 
-    private void buscarSerieWeb() {
+    private void buscarSerieWeb() throws UnsupportedEncodingException {
         DadosSerie dados = getDadosSerie();
+        Serie serie = new Serie(dados);
         if (dados.titulo() != null) {
-            dadosSeries.add(dados);
+            // dadosSeries.add(dados);
+            repositorio.save(serie);
+            System.out.println(dados);
         }
         System.out.println(dados);
     }
@@ -91,22 +95,12 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas() {
-        List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                .map(dadosSerie -> {
-                    try {
-                        return new Serie(dadosSerie);
-                    } catch (UnsupportedEncodingException e) {
-                        System.err.println("Erro ao criar a série: " + dadosSerie.titulo());
-                        throw new RuntimeException("Falha ao processar os dados da série", e);
-                    }
-                })
-                .collect(Collectors.toList());
-
+        List<Serie> series = repositorio.findAll();
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
     }
+}
 
     /*
      * // Método original do curso Alura Java - Spring Boot
@@ -213,4 +207,3 @@ public class Principal {
      * ));
      * }
      */
-}

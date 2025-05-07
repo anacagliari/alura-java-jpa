@@ -203,11 +203,13 @@ public class Principal {
     private void buscarQuantidadeMaximaTemporadasEavaliacaoMinima() {
         System.out.println("Digite a quantidade máxima de temporadas: ");
         var numeroTemporadas = leitura.nextInt();
+        leitura.nextLine();
 
         System.out.println("Digite a nota da avaliação: [Vírgula é o separador padrão][A partir de ] ");
         var nota = leitura.nextDouble();
+        leitura.nextLine();
 
-        List<Serie> seriesEspecificasEncontradas = repositorio.findByNumeroTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(numeroTemporadas, nota);
+        List<Serie> seriesEspecificasEncontradas = repositorio.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(numeroTemporadas, nota);
 
         if (seriesEspecificasEncontradas.isEmpty() || seriesEspecificasEncontradas.size() == 0) {
             System.out.println("Nenhuma série encontrada com " + numeroTemporadas + " temporadas ou mais e avaliação maior ou igual a " + nota);

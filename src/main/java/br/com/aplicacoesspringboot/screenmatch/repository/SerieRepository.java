@@ -17,9 +17,8 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     List<Serie> findTop5ByOrderByAvaliacaoDesc();
 
     List<Serie> findByGenero(Categoria categoria);
-
-    // buscar sério com numero X máximo de temporadas com avaliação maior ou igual a determinado valor
-    List<Serie> findByNumeroTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(Integer totalTemporadas, Double avaliacaoMinima);
+    
+    List<Serie> findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(Integer totalTemporadas, Double avaliacaoMinima);
 }
 // aqui não precisa colocar nada, o JpaRepository já tem os métodos prontos para fazer as operações no banco de dados
 // só precisa colocar a entidade e o tipo do id dela

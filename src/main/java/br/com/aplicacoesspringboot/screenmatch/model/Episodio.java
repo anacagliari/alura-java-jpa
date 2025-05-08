@@ -105,11 +105,12 @@ public class Episodio {
 
     @Override
     public String toString() {
-        return "temporada = " + temporada +
-               ", titulo = " + titulo +
-               ", numero = " + numeroEpisodio +
-               ", avaliacao = " + avaliacao +
-               ", dataLancamento = " + dataLancamento;
+        return " # " +
+               titulo + " | " +
+               temporada + "ª Temporada " +
+               "- Ep.: " + numeroEpisodio +
+               " | Nota Imdb: " + avaliacao +
+               " | Data: " + dataLancamento.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
 }

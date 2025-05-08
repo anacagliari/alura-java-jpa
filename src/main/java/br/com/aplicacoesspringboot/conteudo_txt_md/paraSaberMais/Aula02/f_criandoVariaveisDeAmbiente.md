@@ -1,0 +1,3 @@
+# 12 Para saber mais: criando variáveis de ambiente
+
+A seguir, usaremos variáveis de ambiente para proteger e ter maior flexibilidade na nossa aplicação. Caso tenha dúvidas sobre o processo de criar variáveis de ambiente, recomendamos a leitura do artigo [Como configurar variáveis de ambiente no Windows, Linux e macOS](https://www.alura.com.br/artigos/configurar-variaveis-ambiente-windows-linux-macos).

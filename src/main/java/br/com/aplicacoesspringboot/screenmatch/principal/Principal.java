@@ -51,6 +51,7 @@ public class Principal {
                     9 - Buscar episódio por trecho
                     10 - TOP 5 episódios por série
                     11 - Buscar episódios a partir da data
+                    12 - Listar séries buscadas (apenas nome)
 
                     0 - Sair
                     """;
@@ -93,6 +94,9 @@ public class Principal {
                 case 11:
                     buscarEpisodioAPartirData();
                     break;
+                case 12:
+                    listarSeriesBuscadasApenasNome();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -110,7 +114,6 @@ public class Principal {
             repositorio.save(serie);
             System.out.println(dados);
         }
-        System.out.println(dados);
     }
 
     private DadosSerie getDadosSerie() {
@@ -281,6 +284,13 @@ public class Principal {
 
             episodiosAPartirDe.forEach(System.out::println);
         }
+    }
+
+    private void listarSeriesBuscadasApenasNome() {
+        series = repositorio.findAll();
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getAvaliacao).reversed())
+                .forEach(s -> System.out.println(s.getTitulo()));
     }
 }
 
